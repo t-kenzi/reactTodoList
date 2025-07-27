@@ -18,6 +18,7 @@ const Todo = () => {
     },
   ];
   const [ todos, setTodos ] = useState(todoList)
+  const [ editingTodo, setEditingTodo ] = useState(null);
 
   const deleteTodo = (id) => {
     const newTodos = todos.filter((todo) => {
@@ -30,12 +31,27 @@ const Todo = () => {
     setTodos([...todos,todo]);
   }
 
+  const updateTodo = (updateTodo) => {
+    setTodos(todos.map(todo =>
+      todo.id === updateTodo.id ? updateTodo : todo
+    ));
+    setEditingTodo(null);
+  }
+
+  const startEdit = (todo) => {
+    setEditingTodo(todo);
+  };
+
   return (
     <>
-      <List todos={todos} deleteTodo={deleteTodo}/>
-      <Form createTodo={createTodo}/>
+      <List todos={todos} deleteTodo={deleteTodo} startEdit={startEdit}/>
+      <Form 
+        createTodo={createTodo} 
+        editingTodo={editingTodo} 
+        updateTodo={updateTodo}
+      />
     </>
-  )
+  );
 };
 
 export default Todo;
